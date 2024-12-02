@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/client-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+spec:
+  rules:
+    - host: ecommerce.com
+      http:
+        paths:
+          - path: /api/user
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerceuserservice-clusterip-srv
+                port:
+                  number: 8080
+          - path: /api/product
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerceproductservice-clusterip-srv
+                port:
+                  number: 8080
+          - path: /api/category
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerceproductservice-clusterip-srv
+                port:
+                  number: 8080
+          - path: /api/productUser
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerceproductservice-clusterip-srv
+                port:
+                  number: 8080
+          - path: /api/shoppingCart
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerceproductservice-clusterip-srv
+                port:
+                  number: 8080
+
+              

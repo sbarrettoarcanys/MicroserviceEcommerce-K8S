@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerceuserservice-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerceuserservice
+  template:
+    metadata:
+      labels:
+        app: ecommerceuserservice
+    spec:
+      containers:
+        - name: ecommerceuserservice
+          image: smbarretto/ecommerceuserservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerceuserservice-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ecommerceuserservice
+  ports:
+  - name: ecommerceuserservice
+    protocol: TCP
+    port: 8080
+    targetPort: 8080

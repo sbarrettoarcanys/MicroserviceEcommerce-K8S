@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerceproductservice-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerceproductservice
+  template:
+    metadata:
+      labels:
+        app: ecommerceproductservice
+    spec:
+      containers:
+        - name: ecommerceproductservice
+          image: smbarretto/ecommerceproductservice:latest
+          volumeMounts:
+          - mountPath: /app/wwwroot/images
+            name: images-volume
+      volumes:
+      - name: images-volume
+        persistentVolumeClaim:
+          claimName: images-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerceproductservice-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ecommerceproductservice
+  ports:
+  - name: ecommerceproductservice
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
